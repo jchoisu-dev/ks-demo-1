@@ -21,77 +21,8 @@ const CallingCheck = async(calling) => {
     if (!calls.find(v => v == calling)) return false;
     return true;
 };
-// 腾讯验证
-const TxcaptchaCheck = async(randstr, ticket, ip) => {
-    if (!randstr || !ticket || !ip) return false;
-    const _txurl = 'https://ssl.captcha.qq.com/ticket/verify?aid=2038774995&AppSecretKey=0lDvje31FVDzL-nJ_b8I3Uw**&Ticket=';
-    try {
-        const texxunVerify = await request({
-            method: 'get',
-            json: true,
-            uri: _txurl + ticket + '&Randstr=' + randstr + '&UserIP=' + ip,
-            timeout: 5000
-        });
-        if (texxunVerify && texxunVerify.response == '1') return true;
-    } catch (error) {
-
-    }
-    return false
-};
-// 发送验证码 - 阿里云
-const AlismsSend = async(type, calling, phone, ip) => {
-    const accessKeyId = 'LTAIapdqTusUGH3z';
-    const secretAccessKey = 'AxtxKbUjTDsUZOnGGxE0blFAlpxgjB';
-    const _out_time = 60;
-    let model = {
-        register: 'SMS_179220774',
-        login: 'SMS_181506055',
-        shopbuy: 'SMS_181506055',
-        wjmm: 'SMS_181506055',
-    }
-    if (!model[type]) return -1;
-    const _sms = await USERPHONESMS.findOne({
-        where: {
-            type,
-            phone,
-        },
-        order: [
-            ['id', 'DESC']
-        ]
-    });
-    if (_sms) {
-        const _this_seconds = dayjs().diff(_sms.time, 'seconds');
-        if (_this_seconds < _out_time) return _out_time - _this_seconds;
-    }
-    const code = await getRandom(111111, 999999);
-    let _send;
-    try {
-        let smsClient = new SMSClient({ accessKeyId, secretAccessKey })
-        _send = await smsClient.sendSMS({
-            PhoneNumbers: phone,
-            SignName: '盛大28',
-            TemplateCode: model[type],
-            TemplateParam: '{"code":' + code + '}'
-        })
-    } catch (error) {
-
-    }
-    if (!_send || _send.Code !== 'OK') return -2;
-    //
-    await USERPHONESMS.create({
-        phone,
-        type,
-        calling,
-        code,
-        ip,
-        time: dayjs().format('YYYY-MM-DD HH:mm:ss')
-    });
-    return code;
-};
 // 
 module.exports = {
     PhoneCheck,
-    CallingCheck,
-    TxcaptchaCheck,
-    AlismsSend,
+    CallingCheck
 };
