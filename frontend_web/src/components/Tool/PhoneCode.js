@@ -26,6 +26,7 @@ export default props =>
                         addonBefore={t("短信验证码")}
                         size="large" 
                         onChange={()=>formFieldChange(dispatch.models.SET({}),PhoneCodeStatus,'code')}
+                        placeholder='123123'
                     />
                 </Form.Item>
 

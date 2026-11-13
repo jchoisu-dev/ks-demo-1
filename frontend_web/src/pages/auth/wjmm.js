@@ -43,10 +43,10 @@ export default () =>
         {
             dispatch.models.SET({ ForgotLoading:{ phone: true } });
             phone = v.phone;
-            SEND('auth_ncp/forgotcode',{
-                calling,
-                phone
-            })
+            // SEND('auth_ncp/forgotcode',{
+            //     calling,
+            //     phone
+            // })
         }).catch(e=>{});
     }
     // 

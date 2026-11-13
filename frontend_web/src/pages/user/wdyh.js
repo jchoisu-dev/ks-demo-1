@@ -43,7 +43,7 @@ export default () =>
     {
         dispatch.models.SET({ UserdbankcunLoading:true });
         values['num'] = mTon(values['num']);
-        console.log(values)
+        // console.log(values)
         SEND('user_wdyh/cun', values);
     };
     const quFinish= (values) => 

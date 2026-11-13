@@ -117,7 +117,7 @@ export default props =>
     // 定额
     const deSh = (m) => 
     {
-        console.log('GameBetVal',GameBetVal)
+        // console.log('GameBetVal',GameBetVal)
         let s = 0;
         let r = {};
         for(let i in GameBetVal)

@@ -60,7 +60,7 @@ export default () =>
             >
                 <Input 
                     prefix={<div style={{paddingRight:6}}><UserOutlined className="site-form-item-icon" /></div>} 
-                    placeholder={t("登录账号")} 
+                    placeholder={"demo123"} 
                     size="large" 
                 />
             </Form.Item>
@@ -72,7 +72,7 @@ export default () =>
                 <Input
                     prefix={<div style={{paddingRight:6}}><LockOutlined className="site-form-item-icon" /></div>}
                     type="password"
-                    placeholder={t("登录密码")}
+                    placeholder={"123123"}
                     size="large"
                 />
             </Form.Item>
