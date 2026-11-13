@@ -64,7 +64,7 @@ const ItsmsSend = async(type, calling, phone, ip) =>
             'url': 'https://api.sms.to/sms/send',
             'headers': {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2F1dGg6ODA4MC9hcGkvdjEvdXNlcnMvYXBpL2tleS9nZW5lcmF0ZSIsImlhdCI6MTY0NDkzMTExNywibmJmIjoxNjQ0OTMxMTE3LCJqdGkiOiJROVJ5VDc0aGVWM0RramRMIiwic3ViIjozNDUzNzYsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.k9MpS649GF3zxq2hv5KvreTWu8bwHeZ_0aaOIskNAug'
+                'Authorization': 'Bearer '
             },
             body: `{ 
                 "message": "您的验证码为：`+code+`，该验证码 60 分钟内有效，请勿泄漏于他人。",
