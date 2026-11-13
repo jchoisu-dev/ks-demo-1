@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Secrets / local config
+.env
+.env.*
+config/config.js
+.vscode/sftp.json
+
+# Logs & PM2
+logs/
+*.log
+npm-debug.log*
+.pm2/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/

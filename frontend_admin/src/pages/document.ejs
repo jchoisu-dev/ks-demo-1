@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="gb2312">
+    <title>Deez nuts</title>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=0.1">
+    <link rel="icon" href="https://pub-422b9064da464b71b9364a92bf3ec848.r2.dev/v1/logos.png" type="image/x-icon" />
+  </head>
+  <script>
+  </script>
+  <body>
+    <div id="root">
+      <style>
+        html,
+        body,
+        #root {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          min-width: 1300px;
+        }
+        * {
+          margin: 0;
+          padding: 0;
+        }
+        .block{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          height:100%;
+          background: #333;
+        }
+        .logo{
+          width:266px;
+          height:150px;
+          position: relative;
+        }
+        /* .logo:after{
+          content: '';
+          width:266px;
+          height:48px;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          background:url(https://pub-422b9064da464b71b9364a92bf3ec848.r2.dev/v1/bg/loading.png) no-repeat center top;
+        } */
+        .skcircle {
+          width: 65px;
+          height: 65px;
+          position: relative; 
+          margin: 0 auto;
+          background:url(https://pub-422b9064da464b71b9364a92bf3ec848.r2.dev/v1/logos.png) no-repeat center center;
+          background-size: 50px;
+        }
+        .skcircle div {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .skcircle div:before {
+            content: '';
+            display: block;
+            width: 14%;
+            height: 14%;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: skcircle 0.6s infinite ease-in-out;
+        }
+        .skcircle div:nth-child(12){transform:rotate(0deg)}.skcircle div:nth-child(12):before{animation-delay:-0.6s}.skcircle div:nth-child(11){transform:rotate(30deg)}.skcircle div:nth-child(11):before{animation-delay:-0.55s}.skcircle div:nth-child(10){transform:rotate(60deg)}.skcircle div:nth-child(10):before{animation-delay:-0.5s}.skcircle div:nth-child(9){transform:rotate(90deg)}.skcircle div:nth-child(9):before{animation-delay:-0.45s}.skcircle div:nth-child(8){transform:rotate(120deg)}.skcircle div:nth-child(8):before{animation-delay:-0.4s}.skcircle div:nth-child(7){transform:rotate(150deg)}.skcircle div:nth-child(7):before{animation-delay:-0.35s}.skcircle div:nth-child(6){transform:rotate(180deg)}.skcircle div:nth-child(6):before{animation-delay:-0.3s}.skcircle div:nth-child(5){transform:rotate(210deg)}.skcircle div:nth-child(5):before{animation-delay:-0.25s}.skcircle div:nth-child(4){transform:rotate(240deg)}.skcircle div:nth-child(4):before{animation-delay:-0.2s}.skcircle div:nth-child(3){transform:rotate(270deg)}.skcircle div:nth-child(3):before{animation-delay:-0.15s}.skcircle div:nth-child(2){transform:rotate(300deg)}.skcircle div:nth-child(2):before{animation-delay:-0.1s}.skcircle div:nth-child(1){transform:rotate(330deg)}.skcircle div:nth-child(1):before{animation-delay:-0.05s}
+        @keyframes skcircle {
+            100% {
+                transform: scale(0.4);
+                opacity: .3;
+            }
+            0% {
+                transform: scale(1); 
+                opacity: 1;
+            } 
+        }
+      </style>
+      <div id="root">
+        <div class="block">
+          <div class="logo">
+            <div class="skcircle">
+              <div></div><div></div><div></div><div></div><div></div>
+              <div></div><div></div><div></div><div></div><div></div>
+              <div></div><div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+# Editor / SFTP config
+.vscode/
+.idea/
+
+# SSL certificates and private keys
+https/
+*.key
+*.pem
+*.crt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+*~

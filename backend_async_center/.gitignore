@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Secrets / credentials
+config/config.js
+.vscode/sftp.json
+.env
+.env.*
+!.env.example
+
+# Logs & PM2
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pm2/
+
+# Editor / OS
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Misc
+coverage/
+tmp/
