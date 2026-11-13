@@ -22,85 +22,8 @@ const CallingCheck = async(calling) => {
     if (!calls.find(v => v == calling)) return false;
     return true;
 };
-// 发送验证码 - 国际
-// type -- register / login / shopbuy / wjmm
-// calling +86
-// phone 1390000000
-// ip -
-//
-const ItsmsSend = async(type, calling, phone, ip) => 
-{
-    // if(!await CallingCheck(calling)) return -11;
-    //
-    const _out_time = 60;
-    let model = {
-        register: 'SMS_179220774',
-        login: 'SMS_181506055',
-        shopbuy: 'SMS_181506055',
-        wjmm: 'SMS_181506055',
-    }
-    if(!model[type]) return -1;
-    // 
-    const number = calling+''+phone;
-    // 
-    const _sms = await USERPHONESMS.findOne({
-        where: {
-            type,
-            calling,
-            phone
-        },
-        order: [
-            ['id', 'DESC']
-        ]
-    });
-    if (_sms) {
-        const _this_seconds = dayjs().diff(_sms.time, 'seconds');
-        if (_this_seconds < _out_time) return _out_time - _this_seconds;
-    }
-    const code = await getRandom(111111, 999999);
-    let _send;
-    // try {
-    //     await request({
-    //         'method': 'POST',
-    //         'url': 'https://api.sms.to/sms/send',
-    //         'headers': {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2F1dGg6ODA4MC9hcGkvdjEvdXNlcnMvYXBpL2tleS9nZW5lcmF0ZSIsImlhdCI6MTY0NDkzMTExNywibmJmIjoxNjQ0OTMxMTE3LCJqdGkiOiJROVJ5VDc0aGVWM0RramRMIiwic3ViIjozNDUzNzYsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.k9MpS649GF3zxq2hv5KvreTWu8bwHeZ_0aaOIskNAug'
-    //         },
-    //         body: `{ 
-    //             "message": "您的验证码为：`+code+`，该验证码 60 分钟内有效，请勿泄漏于他人。",
-    //             "to": "+`+number+`",
-    //             "bypass_optout": true,    
-    //             "sender_id": "sd28",    
-    //             "callback_url": "https://example.com/callback/handler"
-    //         }`}, function (error, response) {
-    //         // if (error) throw new Error(error);
-    //         // console.log(response.body);
-    //         _send = JSON.parse(response.body);
-    //     });
-    // } catch (error) {
-        
-    // }
-    // if (!_send || _send['success'] !== true) return -2;
-    // 
-    // const _users = await ADMIN.findOne({attributes:['id','nick'],where:{phone}});
-    //
-    // await USERPHONESMS.create({
-    //     calling,
-    //     phone,
-    //     type,
-    //     code,
-    //     ip,
-    //     time: dayjs().format('YYYY-MM-DD HH:mm:ss')
-    //     // user_id : _users&&_users.id||0,
-    //     // user_nick : _users&&_users.nick||''
-    // });
-    return code;
-};
 // 
 module.exports = {
     PhoneCheck,
-    CallingCheck,
-    // TxcaptchaCheck,
-    ItsmsSend,
+    CallingCheck
 };
