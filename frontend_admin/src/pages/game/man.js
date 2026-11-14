@@ -142,7 +142,7 @@ export default (props) => {
     <AuKill form={form[10]} setGo={setGo} timeChange={timeChange} />,
     <Other form={form[7]} setGo={setGo} timeChange={timeChange} />,
   ];
-  console.log(Settings && Settings);
+  // console.log(Settings && Settings);
   //
   return (
     <div className="tc">

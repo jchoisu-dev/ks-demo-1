@@ -77,7 +77,7 @@ export default (props) => {
               <Form.Item name="user">
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Username"
+                  placeholder="admin123"
                   size="large"
                 />
               </Form.Item>
@@ -85,7 +85,7 @@ export default (props) => {
                 <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="123123"
                   size="large"
                 />
               </Form.Item>

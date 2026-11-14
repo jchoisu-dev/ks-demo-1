@@ -152,7 +152,7 @@ export default (props) => {
         className="mb16 tl"
         style={{ borderBottom: '1px dotted #ddd', paddingBottom: 16 }}
       >
-        <Button type="primary" onClick={() => agentAdd()} disabled>
+        <Button type="primary" onClick={() => agentAdd()}>
           Add Agent
         </Button>
       </div>
