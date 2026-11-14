@@ -26,21 +26,30 @@ A real-time lottery game. Results are scraped from public draw feeds every few s
 **Data**
 
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-FF4438?style=for-the-badge&logo=redis&logoColor=white)
 
 **Frontend**
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Umi](https://img.shields.io/badge/Umi-1890FF?style=for-the-badge)
 ![Ant Design Pro](https://img.shields.io/badge/Ant%20Design%20Pro-0170FE?style=for-the-badge&logo=antdesign&logoColor=white)
+![Ant Design Mobile](https://img.shields.io/badge/Ant%20Design%20Mobile-0170FE?style=for-the-badge&logo=antdesign&logoColor=white)
 
-**Infrastructure**
+**Infrastructure and cloud**
 
+![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white)
+![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+![Alibaba Cloud CDN](https://img.shields.io/badge/Alibaba%20Cloud%20CDN-FF6A00?style=for-the-badge&logo=alibabacloud&logoColor=white)
+![Tencent Cloud CDN](https://img.shields.io/badge/Tencent%20Cloud%20CDN-006EFF?style=for-the-badge&logo=tencentqq&logoColor=white)
 ![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 ![PM2](https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white)
-![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+
+**Integrations**
+
+![Telegram](https://img.shields.io/badge/Telegram%20Bot-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)
+![USDT](https://img.shields.io/badge/USDT%20(TRC--20)-26A17B?style=for-the-badge&logo=tether&logoColor=white)
+![Crypto API](https://img.shields.io/badge/Crypto%20API%20(TronWeb)-EB0029?style=for-the-badge)
 
 ## Contents
 
