@@ -21,12 +21,12 @@ const PageView = dynamic({ loader: () => import('@/components/now/PageView') });
 const PageRequest = dynamic({
   loader: () => import('@/components/now/PageRequest'),
 });
-// const LotteryNew = dynamic({
-//   loader: () => import('@/components/now/LotteryNew'),
-// });
-// const LotteryKill = dynamic({
-//   loader: () => import('@/components/now/LotteryKill'),
-// });
+const LotteryNew = dynamic({
+  loader: () => import('@/components/now/LotteryNew'),
+});
+const LotteryKill = dynamic({
+  loader: () => import('@/components/now/LotteryKill'),
+});
 //
 export default (props) => {
   const { SET, SEND, HomeNowSum, HomeSum } = useModel('data');
@@ -88,8 +88,8 @@ export default (props) => {
     return '-';
   };
   const title = (k, v) => {
-    // if(k<5)
-    // {
+    if(k<5)
+    {
     return (
       <div className={'title i' + (k + 1 < 6 ? k + 1 : k - 2)}>
         <Row justify="space-between" align="middle">
@@ -98,20 +98,20 @@ export default (props) => {
         </Row>
       </div>
     );
-    // }
-    // return v[4];
+    }
+    return v[4];
   };
   //
   return (
     <div className="home tblock tc">
-      {/* <Row gutter={10}>
+      <Row gutter={10}>
         <Col flex={1}>
           <LotteryNew />
         </Col>
         <Col flex={1}>
           <LotteryKill />
         </Col>
-      </Row> */}
+      </Row>
 
       <Row gutter={10}>
         {arr.map((v, k) => (

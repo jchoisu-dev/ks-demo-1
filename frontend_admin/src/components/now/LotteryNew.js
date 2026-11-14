@@ -88,7 +88,10 @@ export default (props) => {
     sd: 'Leopard',
     cm: 'Strawberry',
   };
-  const games = ['jnd', 'ddbj', 'jnc', 'elg', 'slfk'];
+  const games = [
+    // 'jnd', 
+    'ddbj', 'jnc', 'elg', 'slfk'
+  ]
   const types = ['11', '16', '28', '36'];
   //
   let _status = statusCheck();
