@@ -40,8 +40,14 @@ const get_new_jnc = async() =>
             number.push(parseInt(_td.eq(i).html().replace(/(^\s*)|(\s*$)/g, "")));
         }
     } catch (error) {
-        
+        // console.log(error)
     }
+    // 
+    // console.log({
+    //     peroids,
+    //     number,
+    //     time
+    // })
     // 
     if(!peroids || !time || number.length<20) return '';
     // 

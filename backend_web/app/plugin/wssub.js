@@ -76,7 +76,8 @@ const game_lottery_open = async(w, m) =>
     // 
     return {
         Lottery,
-        GameGetReload: dayjs().valueOf()
+        GameGetReload: dayjs().valueOf(),
+        MP3: 'lottery_open'
     };
 }
 // 最新一期,不带号码

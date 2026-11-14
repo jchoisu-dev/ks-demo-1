@@ -10,7 +10,9 @@ const { Telegraf } = require('telegraf');
 // 
 const dui = async(d) => 
 {
-    let { id, money, time, telegram_id, tma } = d;
+    let { id, money, time, 
+        // telegram_id, tma 
+    } = d;
     // 
     const _user = await USERS.findOne({attributes: ['nick','name'],where:{ id }});
     // 
@@ -95,10 +97,10 @@ const dui = async(d) =>
     });
     // 
     if(!_re) {
-        if(tma){
-            return {M:{c:'提款失败，请稍后再试1！'} }
-        }
-        return '提款失败，请稍后再试1！' 
+        // if(tma){
+        //     return {M:{c:'提款失败，请稍后再试1！'} }
+        // }
+        // return '提款失败，请稍后再试1！' 
     }
     if(_re==1){
         if(tma){
@@ -119,32 +121,30 @@ const dui = async(d) =>
         user_exchanges: money
     }}));
     // 
-    const bgp = await async_get_telegram('bgp_alert')
-    const bot_bgp = new Telegraf(bgp.bot);
+    // const bgp = await async_get_telegram('bgp_alert')
+    // const bot_bgp = new Telegraf(bgp.bot);
     // 
-    const bgp_message = '🏧 <b>WITHDRAW REQUEST </b>' + '\n\n' +
-    'Time: ' + dayjs().format('YYYY-MM-DD HH:mm:ss') +  '\n' +
-    'User ID: <code>' + id + '</code> \n' +
-    'Name: <code>' +  (_user.nick || 'N/A' ) + '</code> \n' +
-    'Amount: <code>$' + money + '</code> \n' +
-    'Withdraw Code: <code>' + _re.km + '</code>';
+    // const bgp_message = '🏧 <b>WITHDRAW REQUEST </b>' + '\n\n' +
+    // 'Time: ' + dayjs().format('YYYY-MM-DD HH:mm:ss') +  '\n' +
+    // 'User ID: <code>' + id + '</code> \n' +
+    // 'Name: <code>' +  (_user.nick || 'N/A' ) + '</code> \n' +
+    // 'Amount: <code>$' + money + '</code> \n' +
+    // 'Withdraw Code: <code>' + _re.km + '</code>';
+    // // 
+    // await bot_bgp.telegram.sendMessage(bgp.group, bgp_message, { parse_mode: 'HTML' });
     // 
-    await bot_bgp.telegram.sendMessage(bgp.group, bgp_message, { parse_mode: 'HTML' });
-    // 
-    if(tma){
-        return {
-            M:{
-                c: `您的 ${money} 提款请求已被接受 请耐心等待交易完成。如有任何问题或需要帮助，请随时联系客户服务 https://t.me/jlfc_kf`
-            },
-            Auth: { bank: _re.user_new_bank },
-            A:{ u:'user/km' },
-            ShopBuy:'',
-            ShopTip:''
-        }
+    return {
+        M:{
+            c: `您的 ${money} 提款请求已被接受 请耐心等待交易完成。如有任何问题或需要帮助`
+        },
+        Auth: { bank: _re.user_new_bank },
+        A:{ u:'user/wdkm' },
+        ShopBuy:'',
+        ShopTip:''
     }
-    return "您的 $" + money + " 提款请求已被接受 请耐心等待交易完成。如有任何问题或需要帮助，请随时联系客户服务 https://t.me/jlfc_kf" + '\n\n' +
-    '您的 ID：' + telegram_id + '\n' + 
-    '时间：' + time
+    // return "您的 $" + money + " 提款请求已被接受 请耐心等待交易完成。如有任何问题或需要帮助，请随时联系客户服务 https://t.me/jlfc_kf" + '\n\n' +
+    // '您的 ID：' + telegram_id + '\n' + 
+    // '时间：' + time
 }
 // 
 module.exports = {

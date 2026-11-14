@@ -63,7 +63,7 @@ const check = async(d) =>
         return { M: { c: '提现时间间隔，不能低于最后一次充值时间的 '+_need_time[1]+' 分钟内' }, ShopLoading: '' };
     }
     // 
-    const ut = await USERTELEGRAM.findOne({attributes:['address_withdraw'], where:{user_id:id}})
+    // const ut = await USERTELEGRAM.findOne({attributes:['address_withdraw'], where:{user_id:id}})
     // 
     const dou = parseInt(money*1000);
     let [ ls, tip, odd, charge_dou, _user_data_last_charge_dou ] = await LsCheck({user_id:id});
@@ -88,47 +88,48 @@ const check = async(d) =>
             tip, money, ls, rate, dou, douodd, dousum, code, charge_dou,
             bank: bank||0, 
             last: _user_data_last_charge_dou||0,
-            address_withdraw: ut.address_withdraw
+            // address_withdraw: ut.address_withdraw
         }
     }
 }
 // 获取KEY
-// const code = async(d) => 
-// {
-//     let { id, code, ip } = d;
-//     // 
-//     if (!code) return { M: { c: '参数不完整，请重试！' } };
-//     // 
-//     const _code = (await deSign(code)).split('|');
-//     if(_code.length<5 || !_code[0] || !_code[1] || _code[2]!=id || _code[3]!=ip) return { M: { c: '参数错误或网络变动，请重试！' },ShopTip:'' };
-//     if(parseInt(dayjs().unix()-_code[0])>600) return { M: { c: '兑换超时，请重试！' },ShopTip:'' };
-//     // 
-//     const { bank } = await USERDATA.findOne({attributes:['bank'],where:{user_id:id}});
-//     if(!bank) return { M: { c: '获取信息失败，请稍后重试！' } };
-//     if(parseInt(bank) < parseInt(_code[5])) return { M: { c: '银行金豆不足，请先到会员中心进行存豆，再进行兑换，或更改兑换金额！' } }; 
-//     // 
-//     let { calling, phone } = await USERS.findOne({ attributes: ['calling','phone'], where: { id } });
-//     // 
-//     // let pode = await AlismsSend('shopbuy', calling, phone, ip);
-//     let pode = await ItsmsSend('shopbuy', calling, phone, ip);
-//     if (pode < 0) return { M: { c: '短信发送失败或单日发送过多，请稍后再试或联系客服获取！' },ShopTip:'' };
-//     if (pode < 60) return { M: { c: '短信发送过快，请 ' + pode + ' 秒后再试！' },ShopTip:'' };
-//     // 
-//     return {
-//         ShopTip:'',
-//         ShopBuy:{
-//             phone: calling+' '+await phoneHide(phone),
-//             code: await enSign(id+'|'+ip+'|'+_code[1]+'|'+pode+'|'+dayjs().unix()+'|'+await UUID())
-//         }
-//     }
-// };
+const code = async(d) => 
+{
+    let { id, code, ip } = d;
+    // 
+    if (!code) return { M: { c: '参数不完整，请重试！' } };
+    // 
+    const _code = (await deSign(code)).split('|');
+    if(_code.length<5 || !_code[0] || !_code[1] || _code[2]!=id || _code[3]!=ip) return { M: { c: '参数错误或网络变动，请重试！' },ShopTip:'' };
+    if(parseInt(dayjs().unix()-_code[0])>600) return { M: { c: '兑换超时，请重试！' },ShopTip:'' };
+    // 
+    const { bank } = await USERDATA.findOne({attributes:['bank'],where:{user_id:id}});
+    if(!bank) return { M: { c: '获取信息失败，请稍后重试！' } };
+    if(parseInt(bank) < parseInt(_code[5])) return { M: { c: '银行金豆不足，请先到会员中心进行存豆，再进行兑换，或更改兑换金额！' } }; 
+    // 
+    let { calling, phone } = await USERS.findOne({ attributes: ['calling','phone'], where: { id } });
+    // 
+    // let pode = await AlismsSend('shopbuy', calling, phone, ip);
+    let pode = 123123;
+    if (pode < 0) return { M: { c: '短信发送失败或单日发送过多，请稍后再试或联系客服获取！' },ShopTip:'' };
+    if (pode < 60) return { M: { c: '短信发送过快，请 ' + pode + ' 秒后再试！' },ShopTip:'' };
+    // 
+    return {
+        ShopTip:'',
+        ShopBuy:{
+            phone: calling+' '+await phoneHide(phone),
+            code: await enSign(id+'|'+ip+'|'+_code[1]+'|'+pode+'|'+dayjs().unix()+'|'+await UUID())
+        }
+    }
+};
 // 兑换
 const exchange = async(d) => 
 {
     const { id, uuidkey, pode, code, ip, money, tma, telegram_id } = d;
+    console.log(d)
     // if (!pode || !code) return { M: { c: '参数不完整，请重试！' },ShopBuy:'' };
     // //
-    // const _pode = (await deSign(pode)).split('|');
+    const _pode = (await deSign(pode)).split('|');
     // if(_pode.length<5 || _pode[0]!=id || _pode[1]!=ip) return { M: { c: '参数错误或网络变动，请重试！' },ShopBuy:'' };
     
     // if(parseInt(dayjs().unix()-parseInt(_pode[4]))>600) return { M: { c: '兑换超时，请重试！' },ShopBuy:'' };
@@ -142,13 +143,13 @@ const exchange = async(d) =>
     // 
     await SubDo({ 
         path:[ 'shop', 'dui' ],
-        // data:{ uuidkey, id, money: parseInt(_pode[2]) }
-        data:{ uuidkey, id, money, tma, telegram_id }
+        data:{ uuidkey, id, money: parseInt(_pode[2]) }
+        // data:{ uuidkey, id, money, tma, telegram_id }
     });
 }
 // 
 module.exports = {
     check,
-    // code,
+    code,
     exchange
 };

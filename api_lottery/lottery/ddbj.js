@@ -40,10 +40,15 @@ const get_new_ddbj = async() =>
         }
         time = await timeChange();
     } catch (error) {
-
+        // console.log(error)
     }
+    // console.log({
+    //     peroids,
+    //     time,
+    //     number
+    // })
     // 
-    if(!_r || !peroids || !time || !number) return '';
+    if(!peroids || !time || !number) return '';
     // 
     return {
         peroids,

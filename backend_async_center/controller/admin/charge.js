@@ -149,11 +149,11 @@ const go = async(d) =>
             await USERTRANSACTION.create({
                 user_id: _user_id,
                 charge_id: _charge.id,
-                address_business,
+                address_business: 'address_business',
                 amount: money,
                 unit,
-                block,
-                transaction_id,
+                block: 'block',
+                transaction_id: 'transaction_id',
                 time
             }, { transaction });
         }
@@ -248,19 +248,19 @@ const go = async(d) =>
     // if(_re==2) return '金豆余额不足，请联系客服上分';
     // 
     //====================================================== BGP =================================================================================================
-    const { explorer } = await async_get_telegram("environment");
-    const bgp = await async_get_telegram('bgp_alert')
-    const bot_bgp = new Telegraf(bgp.bot);
-    // 
-    const bgp_message = '💰 <b>TOP UP </b>' + '\n\n' +
-    'Time: ' + dayjs().format('YYYY-MM-DD HH:mm:ss') +  '\n' +
-    'User ID: <code>' + _user_id + '</code> \n' +
-    'Name: <code>' +  (_user.nick || 'N/A' ) + '</code> \n' +
-    'Amount: <code>$' + money + '</code> \n' +
-    'Assigned Wallet: <code>' + address_business + '</code> \n' +
-    'Hash: ' + explorer + transaction_id;
-    // 
-    await bot_bgp.telegram.sendMessage(bgp.group, bgp_message, { parse_mode: 'HTML' });
+    // const { explorer } = await async_get_telegram("environment");
+    // const bgp = await async_get_telegram('bgp_alert')
+    // const bot_bgp = new Telegraf(bgp.bot);
+    // // 
+    // const bgp_message = '💰 <b>TOP UP </b>' + '\n\n' +
+    // 'Time: ' + dayjs().format('YYYY-MM-DD HH:mm:ss') +  '\n' +
+    // 'User ID: <code>' + _user_id + '</code> \n' +
+    // 'Name: <code>' +  (_user.nick || 'N/A' ) + '</code> \n' +
+    // 'Amount: <code>$' + money + '</code> \n' +
+    // 'Assigned Wallet: <code>' + address_business + '</code> \n' +
+    // 'Hash: ' + explorer + transaction_id;
+    // // 
+    // await bot_bgp.telegram.sendMessage(bgp.group, bgp_message, { parse_mode: 'HTML' });
     // 
     let promo ='';
     // 
@@ -410,9 +410,9 @@ const go = async(d) =>
             PageView:[
                 _user_id,
                 _user.nick || '-',
-                address_business,
+                'address_business',
                 money,
-                transaction_id,
+                'transaction_id',
                 dayjs().format('MM-DD HH:mm:ss')
             ]
         }));
@@ -423,30 +423,18 @@ const go = async(d) =>
     // 
     // ============================================================================================================================================
     // 
-    if(tma){
-        // console.log(123)
-        const _user_id_uuid = _user_id+'-'+_user.uuid;
-        await admin_to_user({
-            _user_id_uuid,
-            data:{
-                Auth:{
-                    dou: first_charge_data? _re._user_new_dou : num,
-                    exp: first_charge_data?_re.exp : 0
-                },
-                TMA: '恭喜您！充值成功：' + money + '美元。感谢您选择在金狼福财娱乐，祝您好运' 
-            }
-        });
-        return {
-            M:{
-                c: 'Top up Complete'
-            }
+    // console.log(123)
+    const _user_id_uuid = _user_id+'-'+_user.uuid;
+    await admin_to_user({
+        _user_id_uuid,
+        data:{
+            Auth:{
+                dou: first_charge_data? _re._user_new_dou : num,
+                exp: first_charge_data?_re.exp : 0
+            },
+            M: '恭喜您！充值成功：' + money + '美元。感谢您选择在金狼福财娱乐，祝您好运' 
         }
-    }
-    return '恭喜您！充值成功：' + money + '美元。感谢您选择在金狼福财娱乐，祝您好运' + '\n' +
-    (promo ? '奖金：' + promo  : '' )+ 
-
-    '点击"🎮 彩票导航"进入娱乐场！' + '\n\n' + 
-    '您的交易哈希：' + explorer + transaction_id;
+    });
 }
 // 
 // const back = async(d) => 

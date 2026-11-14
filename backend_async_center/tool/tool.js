@@ -87,6 +87,7 @@ const getYearMonthDayWeek = async() =>
 // 
 const oddCheck = async(data, ls) => 
 {
+    console.log(data, ls)
     let _d = [ ...data, { ls, odd:'-' } ]; // 组合
     _d.sort( (a, b) => { return parseFloat(a.ls) - parseFloat(b.ls) }); // 排序
     const _i = _d.findIndex(v=>v.odd=='-'); // 取位

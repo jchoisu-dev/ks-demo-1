@@ -13,7 +13,7 @@ const {
 } = require('../tool/redis');
 //
 // Change this when open lottery data is not corect. Use the next period id, time of the chosen game which has not opened yet (SEE LINE 62 to 67)
-const _default_peroids = 149;
+const _default_peroids = 608;
 let _is_test = 1;
 // 
 const checkNextTime = async(_perv) =>
@@ -35,7 +35,7 @@ const get_new_au = async() =>
     // 
     // console.log(d);
     // 
-    // if(!d || !d.current || !d.current.draw) return '';
+    if(!d || !d.current || !d.current.draw) return '';
     // console.log(d.selling.closing);
     let list = d.current;
     let peroids;
@@ -50,9 +50,16 @@ const get_new_au = async() =>
     } catch (error) {
         // console.log(error);
     }
-    // 
+    //
+    // console.log({
+    //     list
+    // }) 
     // const _perv = await contro_get('game_list_au');
-    // if(_perv && (_perv.number).join(',')==number.join(',') && _perv.time==time) return '';
+    if(_perv && (_perv.number).join(',')==number.join(',') && _perv.time==time) return '';
+    // 
+    // console.log({
+    //     _perv
+    // })
     // 
     if(_perv && _perv.peroids)
     {
@@ -71,11 +78,17 @@ const get_new_au = async() =>
     //     _is_test = 2;
     // }
     // 
-    let _auto_number = await killKrAu('au', peroids);
-    if (_auto_number)
-    {
-        number = _auto_number;
-    }
+    // let _auto_number = await killKrAu('au', peroids);
+    // if (_auto_number)
+    // {
+    //     number = _auto_number;
+    // }
+    // 
+    // console.log({
+    //     peroids,
+    //     number,
+    //     time
+    // })
     // 
     if(!peroids || !time || !number || number.length<20) return '';
     // 

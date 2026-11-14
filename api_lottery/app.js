@@ -69,11 +69,11 @@ const run_get = async() =>
 // 通知 - 循环执行
 const sub_one = async() => 
 {
-    contro_subscribe.subscribe(`__keyevent@0__:expired`, async() =>
+    contro_subscribe.subscribe(`__keyevent@10__:expired`, async() =>
     {
         contro_subscribe.on('message', async(info, msg) => 
         {
-            console.log(info, msg);
+            // console.log(info, msg);
             // 
             if(msg=='run_get_number')
             {
@@ -89,12 +89,12 @@ const sub_one = async() =>
 // 通知 - 每天执行
 const sub_day = async()=> 
 {
-    day_subscribe.subscribe(`__keyevent@1__:expired`, async() =>
+    day_subscribe.subscribe(`__keyevent@11__:expired`, async() =>
     {
         day_subscribe.on('message', async(info, msg) => 
         {
             try {
-                console.log('每天', info, msg);
+                // console.log('每天', info, msg);
                 // 
                 await dayIn(msg);
                 //

@@ -30,7 +30,12 @@ const userbetdou = async(user_id) =>
 // 
 const go = async(d) => 
 {
-    const { id, _user_id, money, time, address_business, unit, block, transaction_id, tma } = d;
+    const { id, _user_id, money, time, 
+        // address_business, 
+        unit, block, 
+        // transaction_id, 
+        tma
+    } = d;
     // console.log(d)
     // 
     const _agent = await USERS.findOne({attributes: ['nick', 'role', 'status'], where:{id: id}});
@@ -155,18 +160,18 @@ const go = async(d) =>
             }, { transaction });
         }
         // 
-        if(block){
-            await USERTRANSACTION.create({
-                user_id: _user_id,
-                charge_id: _charge.id,
-                address_business,
-                amount: money,
-                unit,
-                block,
-                transaction_id,
-                time
-            }, { transaction });
-        }
+        // if(block){
+        //     await USERTRANSACTION.create({
+        //         user_id: _user_id,
+        //         charge_id: _charge.id,
+        //         address_business,
+        //         amount: money,
+        //         unit,
+        //         block,
+        //         transaction_id,
+        //         time
+        //     }, { transaction });
+        // }
         
         // 
         const _user_day_data = await USERDAYDATA.findOne({attributes:['day_first_charge','cls'],where:{user_id:_user_id,time:_day}});
@@ -402,9 +407,9 @@ const go = async(d) =>
         PageView:[
             _user_id,
             _user.nick || '-',
-            address_business,
+            'wallet-demo',
             money,
-            transaction_id,
+            'transaction-demo',
             dayjs().format('MM-DD HH:mm:ss')
         ]
     }));
@@ -414,18 +419,16 @@ const go = async(d) =>
     // 
     // ============================================================================================================================================
     // 
-    if(tma){
-        return {
-            M:{
-                c: 'Top up Complete'
-            }
+    return {
+        M:{
+            c: 'Top up Complete'
         }
     }
-    return '恭喜您！充值成功：' + money + '美元。感谢您选择在金狼福财娱乐，祝您好运' + '\n' +
-    (promo ? '奖金：' + promo  : '' )+ 
+    // return '恭喜您！充值成功：' + money + '美元。感谢您选择在金狼福财娱乐，祝您好运' + '\n' +
+    // (promo ? '奖金：' + promo  : '' )+ 
 
-    '点击"🎮 彩票导航"进入娱乐场！' + '\n\n' + 
-    '您的交易哈希：' + explorer + transaction_id;
+    // '点击"🎮 彩票导航"进入娱乐场！' + '\n\n' + 
+    // '您的交易哈希：' + explorer + transaction_id;
 }
 // 
 // const back = async(d) => 

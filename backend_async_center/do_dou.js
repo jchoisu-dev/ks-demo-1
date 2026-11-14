@@ -22,22 +22,15 @@ const dataChange = async(d) =>
     let { path, platform } = _d;
     let { uuidkey, telegram_id, message_id, telegram_chat, category, tma } = _d.data;
     _d.data.time = dayjs().format('YYYY-MM-DD HH:mm:ss');
-    // if(!telegram_chat){
-    //     const data = await controller[platform][path[0]][path[1]](_d.data);
-    //     // 
-    //     if(!data || !uuidkey) return;
-    //     // console.log(uuidkey);
-    //     redis_2_pub.publish(_platform_publish_name[platform], JSON.stringify({
-    //         uuidkey,
-    //         data
-    //     }));
-    //     return;
-    // }
+    const data = await controller[platform][path[0]][path[1]](_d.data);
+    // console.log(data)
+    // 
+    if(!data || !uuidkey) return;
     // ================================================================================
-    const bots = {};
-    const walletKey = await async_get_telegram('myWalletBot');
+    // const bots = {};
+    // const walletKey = await async_get_telegram('myWalletBot');
     // const wallet = new Telegraf(walletKey.wallet);
-    const gameNames = await async_get_telegram('myGameBots');
+    // const gameNames = await async_get_telegram('myGameBots');
     // 
     // for(let i in gameNames){
     //     const v = gameNames[i];
@@ -120,7 +113,8 @@ const startWaitMsg = async(c) =>
             await dataChange(res[1]);
         }
         catch(err) {
-            console.log('brpop 出错，重新brpop')
+            console.log(err)
+            // console.log('brpop 出错，重新brpop')
             continue
         }
         // 
