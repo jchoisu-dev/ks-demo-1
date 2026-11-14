@@ -1,4 +1,4 @@
-<title>KS28 Lottery Platform</title>
+<title>Lottery Platform</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,8 +156,8 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
 
 <header>
   <span class="eyebrow">System design · Demo project 01</span>
-  <h1>KS28 Lottery Platform</h1>
-  <p class="lede">A real-time "28"-style lottery game. Results are scraped from public draw feeds every few seconds. Players bet over a single encrypted WebSocket, the platform settles each round automatically, and payouts reach every connected client within the same second.</p>
+  <h1>Lottery Platform</h1>
+  <p class="lede">A real-time lottery game. Results are scraped from public draw feeds every few seconds. Players bet over a single encrypted WebSocket, the platform settles each round automatically, and payouts reach every connected client within the same second.</p>
   <div class="facts">
     <span><b>8</b> services</span>
     <span><b>12</b> PM2 processes</span>
@@ -236,7 +236,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
         <text x="630" y="376" text-anchor="middle" class="tm">site_admin · :9202–9206</text>
 
         <line x1="495" y1="128" x2="543" y2="128" class="ln" marker-end="url(#ar)"/>
-        <text x="519" y="120" text-anchor="middle" class="tm">/ks28</text>
+        <text x="519" y="120" text-anchor="middle" class="tm">/key</text>
         <line x1="495" y1="228" x2="543" y2="228" class="ln" marker-end="url(#ar)"/>
         <text x="519" y="220" text-anchor="middle" class="tm">/w…</text>
         <line x1="495" y1="362" x2="543" y2="362" class="ln" marker-end="url(#ar)"/>
@@ -389,7 +389,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     <li><div><b>Fetch and dedupe.</b> Each feed is parsed with cheerio. A draw is new only if its period number is greater than <code>game_list_{game}</code>, so repeated scrapes are harmless.</div></li>
     <li><div><b>Record the round.</b> <code>lottery_in</code> receives the draw and queues it. <code>lottery_open</code> pops it, updates history and the next four rounds' bet slips, and pushes a settlement job. <code>lottery_qun</code> uses expiring keys to announce "betting closed" to each game room before the draw.</div></li>
     <li><div><b>Settle.</b> <code>bet_open</code> loads every open bet for that period, evaluates each one against the result with the current odds and the per-round payout cap (<code>GameSet.max-open</code>), then writes wins, losses and balance changes.</div></li>
-    <li><div><b>Push.</b> Results go out on <code>sd28-user-room</code>. Every gateway process is subscribed and forwards a message only to the socket whose <code>uuidkey</code> matches. Room-wide events (new draw, countdown) go on <code>sd28-site-room</code> to everyone.</div></li>
+    <li><div><b>Push.</b> Results go out on <code>user-room</code>. Every gateway process is subscribed and forwards a message only to the socket whose <code>uuidkey</code> matches. Room-wide events (new draw, countdown) go on <code>site-room</code> to everyone.</div></li>
   </ol>
 </section>
 
@@ -414,7 +414,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
         <line x1="720" y1="60" x2="720" y2="318" class="life"/>
 
         <line x1="82" y1="96" x2="298" y2="96" class="ln" marker-end="url(#hs)"/>
-        <text x="190" y="88" text-anchor="middle" class="tm">GET /ks28</text>
+        <text x="190" y="88" text-anchor="middle" class="tm">GET /key</text>
         <line x1="302" y1="96" x2="518" y2="96" class="ln" marker-end="url(#hs)"/>
         <text x="410" y="88" text-anchor="middle" class="ts">origin + UA checked</text>
 
@@ -470,8 +470,8 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
       <thead><tr><th>DB</th><th>Pattern</th><th>Keys and channels</th><th>Purpose</th></tr></thead>
       <tbody>
         <tr><td>db0</td><td>queue · list · timer</td><td><span class="mono">lottery_open_list, bet_open_list, lottery_list_*, lottery_fou_*, gqabs_*</span></td><td>Draw intake queue, settlement queue, per-game history, round close timers.</td></tr>
-        <tr><td>db1</td><td>queue · pub/sub · config</td><td><span class="mono">sd28_sub_do_list, sd28_request_view_data, sd28-user-room, sd28-site-room, sd28-admin-*, GameSet</span></td><td>Application bus: write jobs from gateways, result fan-out, admin live feed, game settings.</td></tr>
-        <tr><td>db2</td><td>config</td><td><span class="mono">ks28_auto</span></td><td>Room-simulation and auto-bet settings.</td></tr>
+        <tr><td>db1</td><td>queue · pub/sub · config</td><td><span class="mono">sub_do_list, request_view_data, user-room, site-room, admin-*, GameSet</span></td><td>Application bus: write jobs from gateways, result fan-out, admin live feed, game settings.</td></tr>
+        <tr><td>db2</td><td>config</td><td><span class="mono">auto_config</span></td><td>Room-simulation and auto-bet settings.</td></tr>
         <tr><td>db5</td><td>config</td><td><span class="mono">bot keys</span></td><td>Messaging-bot settings (outside this project's scope).</td></tr>
         <tr><td>db10</td><td>timer · pub/sub · state</td><td><span class="mono">run_get_number, game_list_*, lottery_open_data</span></td><td>Scraper tick, last seen period per game, new-draw channel.</td></tr>
         <tr><td>db11</td><td>timer</td><td><span class="mono">day_*</span></td><td>Scheduled draw times, so rounds advance even before a feed publishes.</td></tr>
@@ -492,7 +492,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     </div>
     <div>
       <h3>Writes through a queue, reads direct</h3>
-      <p>Gateways read MariaDB for pages but hand every balance change to <code>async_center</code> via <code>sd28_sub_do_list</code>.</p>
+      <p>Gateways read MariaDB for pages but hand every balance change to <code>async_center</code> via <code>sub_do_list</code>.</p>
       <p class="why">One consumer applies money movements in order, so two simultaneous bets from one user cannot race on the same balance.</p>
     </div>
     <div>
@@ -577,6 +577,6 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
   </div>
 </section>
 
-<footer>KS28 Lottery Platform · system design for demo project 01 · derived from the <span class="mono">ks-lottery</span> source, November 2026.</footer>
+<footer>Lottery Platform · system design for demo project 01, November 2026.</footer>
 
 </div>

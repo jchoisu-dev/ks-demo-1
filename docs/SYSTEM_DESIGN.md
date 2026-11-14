@@ -1,8 +1,8 @@
-# KS28 Lottery Platform — System Design
+# Lottery Platform — System Design
 
-> Demo project 01 · derived from the `ks-lottery` source, November 2026
+> Demo project 01, November 2026
 
-A real-time "28"-style lottery game. Results are scraped from public draw feeds every few seconds, players bet over a single encrypted WebSocket, the platform settles each round automatically, and payouts reach every connected client within the same second.
+A real-time lottery game. Results are scraped from public draw feeds every few seconds, players bet over a single encrypted WebSocket, the platform settles each round automatically, and payouts reach every connected client within the same second.
 
 | | |
 |---|---|
@@ -59,7 +59,7 @@ flowchart LR
     Player -- "HTTPS + WSS" --> CF
     Admin -- "HTTPS + WSS" --> CF
     CF --> Nginx
-    Nginx -- "GET /ks28 · /ad_key" --> Keys
+    Nginx -- "GET /key · /ad_key" --> Keys
     Nginx -- "upgrade /w…" --> WebGW
     Nginx -- "upgrade /…" --> AdminGW
     WebGW <-- "LPUSH jobs / SUB rooms" --> Redis
@@ -103,7 +103,7 @@ sequenceDiagram
     R->>Async: BRPOP bet_open_list
     Async->>DB: read open bets for the period
     Async->>DB: write wins, losses, balances
-    Async->>R: PUBLISH sd28-user-room
+    Async->>R: PUBLISH user-room
     R->>GW: every gateway receives, filters by uuidkey
     GW->>P: masked WS frame
 ```
@@ -114,7 +114,7 @@ No service waits on another: every hop is either a queue pop or a pub/sub messag
 2. **Fetch and dedupe.** Each feed is parsed with cheerio. A draw is new only if its period number is greater than `game_list_{game}`, so repeated scrapes are harmless.
 3. **Record the round.** `lottery_in` receives the draw and queues it. `lottery_open` pops it, updates history and the next four rounds' bet slips, and pushes a settlement job. `lottery_qun` uses expiring keys to announce "betting closed" to each game room before the draw.
 4. **Settle.** `bet_open` loads every open bet for that period, evaluates each one against the result with the current odds and the per-round payout cap (`GameSet.max-open`), then writes wins, losses and balance changes.
-5. **Push.** Results go out on `sd28-user-room`. Every gateway process is subscribed and forwards a message only to the socket whose `uuidkey` matches. Room-wide events (new draw, countdown) go on `sd28-site-room` to everyone.
+5. **Push.** Results go out on `user-room`. Every gateway process is subscribed and forwards a message only to the socket whose `uuidkey` matches. Room-wide events (new draw, countdown) go on `site-room` to everyone.
 
 ---
 
@@ -129,7 +129,7 @@ sequenceDiagram
     participant K as Key service
     participant GW as WS gateway
 
-    P->>N: GET /ks28
+    P->>N: GET /key
     N->>K: proxy (origin + user agent checked)
     K-->>P: host · md5(UA + minute) · AES(ts, nonce) · ts + nonce
     P->>N: WSS /w{signature}
@@ -166,8 +166,8 @@ Redis carries every cross-service interaction in four patterns: lists as work qu
 | DB | Pattern | Keys and channels | Purpose |
 |---|---|---|---|
 | db0 | queue · list · timer | `lottery_open_list`, `bet_open_list`, `lottery_list_*`, `lottery_fou_*`, `gqabs_*` | Draw intake queue, settlement queue, per-game history, round close timers. |
-| db1 | queue · pub/sub · config | `sd28_sub_do_list`, `sd28_request_view_data`, `sd28-user-room`, `sd28-site-room`, `sd28-admin-*`, `GameSet` | Application bus: write jobs from gateways, result fan-out, admin live feed, game settings. |
-| db2 | config | `ks28_auto` | Room-simulation and auto-bet settings. |
+| db1 | queue · pub/sub · config | `sub_do_list`, `request_view_data`, `user-room`, `site-room`, `admin-*`, `GameSet` | Application bus: write jobs from gateways, result fan-out, admin live feed, game settings. |
+| db2 | config | `auto_config` | Room-simulation and auto-bet settings. |
 | db5 | config | bot keys | Messaging-bot settings (outside this project's scope). |
 | db10 | timer · pub/sub · state | `run_get_number`, `game_list_*`, `lottery_open_data` | Scraper tick, last seen period per game, new-draw channel. |
 | db11 | timer | `day_*` | Scheduled draw times, so rounds advance even before a feed publishes. |
@@ -181,7 +181,7 @@ Services never call each other. They push to a list, publish to a channel, or se
 *Why:* any worker can restart without the others noticing, and adding a game means adding a scraper and a settlement rule, not a new API.
 
 **Writes through a queue, reads direct.**
-Gateways read MariaDB for pages but hand every balance change to `async_center` via `sd28_sub_do_list`.
+Gateways read MariaDB for pages but hand every balance change to `async_center` via `sub_do_list`.
 *Why:* one consumer applies money movements in order, so two simultaneous bets from one user cannot race on the same balance.
 
 **One socket per client.**

@@ -92,10 +92,10 @@ const go = async(d) =>
         // 
         await AGENTTRANSACTION.create({
             agent_id: id,
-            address_agent: sender,
-            address_customer: receiver,
+            address_agent: 'sender',
+            address_customer: 'receiver',
             amount: kmsum,
-            transaction_id: hash,
+            transaction_id: 'hash',
             time
         }, { transaction });
         // 
@@ -113,10 +113,10 @@ const go = async(d) =>
     // 
     redis_2_pub.publish('sd28-admin-data', JSON.stringify({
         PageRequest:[
-            sender,
-            receiver,
+            'sender',
+            'receiver',
             kmsum,
-            hash,
+            'hash',
             dayjs().format('MM-DD HH:mm:ss')
         ]
     }));
@@ -125,7 +125,11 @@ const go = async(d) =>
         agent_exchanges: kmsum}
     }));
     // 
-    return hash
+    // return 'hash'
+    return {
+        M: 'Internal withdrawal successful!',
+        AgentCardLoading:''
+    }
 
 }
 //
